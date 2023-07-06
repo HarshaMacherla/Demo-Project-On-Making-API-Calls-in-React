@@ -1,9 +1,8 @@
-import React from "react";
-
+import React, { memo } from "react";
 import Movie from "./Movie";
 import classes from "./MoviesList.module.css";
 
-const MovieList = (props) => {
+const MoviesList = (props) => {
   return (
     <ul className={classes["movies-list"]}>
       {props.movies.map((movie) => (
@@ -18,4 +17,4 @@ const MovieList = (props) => {
   );
 };
 
-export default MovieList;
+export default memo(MoviesList);

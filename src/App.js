@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 
@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState(null);
   const [retry, setRetry] = useState(false);
 
-  const fetchMoviesHandler = async () => {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -37,7 +37,11 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler]);
 
   useEffect(() => {
     let timeoutId;
@@ -49,7 +53,7 @@ function App() {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [retry]);
+  }, [fetchMoviesHandler, retry]);
 
   let content = <p>Found no movies.</p>;
 
